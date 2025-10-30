@@ -8,13 +8,13 @@
 
 ## Laravel Insta App
 
-Laravel Insta App is laravel app simple instagram clone
+Laravel Insta App is laravel app simple instagram clone. Built with Laravel 12, Inertia.js, and Tailwind CSS.
 
 Demo Link: [Youtube Link](https://youtube.com)
 
 ### Features
 
-- [ ] User Authentication (register, login, logout)
+- [x] User Authentication (register, login, logout)
 - [ ] Post Creation (Text and image)
 - [ ] Like and Comment Functionality
 - [ ] Authorization Management

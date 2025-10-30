@@ -9,7 +9,8 @@ import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { Form, Head } from '@inertiajs/react';
+import { SharedData } from '@/types';
+import { Form, Head, usePage } from '@inertiajs/react';
 
 interface LoginProps {
     status?: string;
@@ -22,9 +23,11 @@ export default function Login({
     canResetPassword,
     canRegister,
 }: LoginProps) {
+    const { name: appName } = usePage<SharedData>().props;
+
     return (
         <AuthLayout
-            title="Log in to your account"
+            title={`Welcome to ${appName}`}
             description="Enter your email and password below to log in"
         >
             <Head title="Log in" />
