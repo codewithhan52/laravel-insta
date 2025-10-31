@@ -16,5 +16,46 @@ Demo Link: [Youtube Link](https://youtube.com)
 
 - [x] User Authentication (register, login, logout)
 - [x] Post Creation (Text and image)
-- [ ] Like and comment Functionality
-- [ ] Authorization Management
+- [x] Like and comment Functionality
+- [x] Authorization Management
+
+### Installation Instructions
+
+1. **Clone the repository**
+
+    ```bash
+    git clone <repository-url>
+    cd laravel-insta
+    ```
+
+2. **Install dependencies**
+
+    ```bash
+    composer install
+    ```
+
+3. **Environment setup**
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+4. **Database setup**
+
+    ```bash
+    # Create SQLite database (default)
+    touch database/database.sqlite
+
+    # Run migrations and seeders
+    php artisan migrate --seed
+    ```
+
+5. **Start the development server**
+    ```bash
+    # Install npm dependencies
+    npm install && npm run dev
+   
+    # Start the server
+    php artisan serve
+    ```
