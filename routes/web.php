@@ -21,6 +21,7 @@ Route::middleware( [ 'auth', 'verified' ] )->group( function () {
 	Route::prefix( 'posts' )->name( 'posts.' )->group( function () {
 
 		// User Posts
+		Route::get( '{post}', [ UserPostController::class, 'show' ] )->name( 'show' );
 		Route::post( '/create', [ UserPostController::class, 'store' ] )->name( 'create' );
 		Route::put( '/{post}/edit', [ UserPostController::class, 'update' ] )->name( 'edit' );
 		Route::delete( '/{post}/delete', [ UserPostController::class, 'destroy' ] )->name( 'delete' );

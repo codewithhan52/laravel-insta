@@ -39,6 +39,23 @@ class PostService {
 			->paginate( $this->perPage );
 	}
 
+	public function getSingle( Post $post ): Post {
+		return $post
+			->load( [
+				'user',
+				'postImages',
+				'postComments' => function ( $query ) {
+					$query->whereNull( 'parent_id' )->with( [ 'user', 'replies.user' ] );
+				}
+			] )
+			->loadCount( [ 'postLikes', 'postComments' ] )
+			->loadCount( [
+				'postLikes as is_liked' => function ( $query ) {
+					$query->where( 'user_id', auth()->id() );
+				}
+			] );
+	}
+
 	public function create( Request $request ): Post {
 
 		$post = auth()->user()->posts()->create( [
