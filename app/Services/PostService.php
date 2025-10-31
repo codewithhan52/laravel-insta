@@ -23,7 +23,7 @@ class PostService {
 		$posts = Post::query();
 
 		if ( $this->random ) {
-			$seed  = now()->startOfDay()->timestamp;
+			$seed  = time();
 			$posts = $posts->inRandomOrder( $seed );
 		} else {
 			$posts = $posts->orderBy( 'created_at', 'desc' );
