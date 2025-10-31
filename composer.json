@@ -1,8 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/react-starter-kit",
+    "name": "hanifazzuhdi/laravel-insta",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Laravel Insta App is laravel app simple instagram clone. Built with Laravel 12, Inertia.js, and Tailwind CSS.",
     "keywords": [
         "laravel",
         "framework"
@@ -17,6 +17,7 @@
         "laravel/wayfinder": "^0.1.9"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.16",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
