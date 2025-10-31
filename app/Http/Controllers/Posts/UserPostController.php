@@ -37,6 +37,10 @@ class UserPostController extends Controller {
 	public function update( Request $request, $postId ) {
 	}
 
-	public function destroy( $postId ) {
+	public function destroy( Post $post ) {
+
+		$this->postService->deletePost( $post );
+
+		return to_route( 'dashboard' )->with( 'success', 'Post deleted successfully.' );
 	}
 }

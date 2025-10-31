@@ -11,6 +11,7 @@ import {
     Heart,
     MessageCircle,
     Send,
+    Trash2,
 } from 'lucide-react';
 import { useState } from 'react';
 import ImageGallery from 'react-image-gallery';
@@ -167,6 +168,12 @@ const PostAction = ({ post, hideComment, user }: PostActionProps) => {
         );
     };
 
+    const handleDeletePost = () => {
+        if (confirm('Are you sure you want to delete this post?')) {
+            router.delete(posts.delete(post.id));
+        }
+    };
+
     const handleShare = () => {
         if (navigator.share) {
             navigator
@@ -228,6 +235,15 @@ const PostAction = ({ post, hideComment, user }: PostActionProps) => {
                     <Send className={'h-5 w-5'} />
                 </div>
             </div>
+
+            {user && user.id === post.user.id && (
+                <div
+                    className="text-gray-600 hover:cursor-pointer hover:text-gray-800"
+                    onClick={handleDeletePost}
+                >
+                    <Trash2 className="h-4 w-4" />
+                </div>
+            )}
         </div>
     );
 };

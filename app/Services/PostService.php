@@ -73,6 +73,13 @@ class PostService {
 		return $post;
 	}
 
+	public function deletePost( Post $post ): void {
+
+		if ( $post->user_id === auth()->id() ) {
+			$post->delete();
+		}
+	}
+
 	public function setRandom( bool $random ): void {
 		$this->random = $random;
 	}
