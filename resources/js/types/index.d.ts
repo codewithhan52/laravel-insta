@@ -50,15 +50,28 @@ export interface PostImage {
     updated_at: string;
 }
 
+export interface PostComment {
+    id: number;
+    message: string;
+    parent_id?: number;
+    post_id: number;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at?: string;
+    user?: User;
+    replies?: PostComment[];
+}
+
 export interface Post {
     id: number;
-    title: string;
     caption?: string;
     post_likes_count: number;
     post_comments_count: number;
     is_liked: number;
     user: User;
     post_images: PostImage[];
+    post_comments?: PostComment[];
     created_at: string;
     updated_at: string;
 }

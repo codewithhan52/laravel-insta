@@ -1,9 +1,10 @@
+import PostComment from '@/components/post-comment';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import { simplifyNumber } from '@/lib/utils';
 import posts from '@/routes/posts';
-import { Post } from '@/types';
-import { router } from '@inertiajs/react';
+import { Post, SharedData } from '@/types';
+import { Link, router, usePage } from '@inertiajs/react';
 import {
     ChevronLeft,
     ChevronRight,
@@ -17,6 +18,7 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 
 interface PostCardProps {
     post: Post;
+    displayComment?: boolean;
 }
 
 interface PostCarouselProps {
@@ -26,7 +28,16 @@ interface PostCarouselProps {
     }[];
 }
 
-const PostCard = ({ post }: PostCardProps) => {
+interface PostActionProps {
+    post: Post;
+    displayComment?: boolean;
+    hideComment?: boolean;
+    user: SharedData['auth']['user'] | null;
+}
+
+const PostCard = ({ post, displayComment = false }: PostCardProps) => {
+    const { auth } = usePage<SharedData>().props;
+
     const images = post.post_images?.map((image) => ({
         original: image.image_src,
         thumbnail: image.image_src,
@@ -39,9 +50,23 @@ const PostCard = ({ post }: PostCardProps) => {
         <div className="flex w-full flex-col gap-4 border-b bg-white pt-4 pb-10">
             <PostInformation post={post} />
             <PostCarousel images={images} />
-            <PostAction post={post} />
+            <PostAction
+                post={post}
+                hideComment={displayComment}
+                user={auth.user}
+            />
 
-            <p className="text-gray-600">{post.caption}</p>
+            <p className="text-sm leading-relaxed text-gray-600">
+                {post.caption}
+            </p>
+
+            {displayComment && (
+                <PostComment
+                    comments={post.post_comments}
+                    postId={post.id}
+                    user={auth.user}
+                />
+            )}
         </div>
     );
 };
@@ -50,7 +75,7 @@ const PostInformation = ({ post }: PostCardProps) => {
     const getInitials = useInitials();
 
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
             <Avatar className="h-8 w-8 overflow-hidden rounded-full">
                 <AvatarImage src={post.user.avatar} alt={post.user.name} />
                 <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
@@ -108,7 +133,7 @@ const PostCarousel = ({ images }: PostCarouselProps) => {
     );
 };
 
-const PostAction = ({ post }: PostCardProps) => {
+const PostAction = ({ post, hideComment, user }: PostActionProps) => {
     const [isLiked, setIsLiked] = useState(post.is_liked > 0);
     const [likesCount, setLikesCount] = useState(post.post_likes_count);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -162,38 +187,46 @@ const PostAction = ({ post }: PostCardProps) => {
     };
 
     return (
-        <div className="flex items-center gap-4">
-            <div
-                className={`transition-colors hover:cursor-pointer ${
-                    isLiked
-                        ? 'text-red-600'
-                        : 'text-gray-600 hover:text-gray-800'
-                } ${isProcessing ? 'pointer-events-none opacity-50' : ''}`}
-                onClick={handleLikeToggle}
-            >
-                <div className={'flex items-center gap-1'}>
-                    <Heart
-                        className={'h-5 w-5 transition-all'}
-                        fill={isLiked ? 'red' : 'white'}
-                    />
-                    <span className={'text-[13px] text-gray-600'}>
-                        {simplifyNumber(likesCount)}
-                    </span>
+        <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+                <div
+                    className={`transition-colors hover:cursor-pointer ${
+                        isLiked
+                            ? 'text-red-600'
+                            : 'text-gray-600 hover:text-gray-800'
+                    } ${isProcessing ? 'pointer-events-none opacity-50' : ''}`}
+                    onClick={handleLikeToggle}
+                >
+                    <div className={'flex items-center gap-1'}>
+                        <Heart
+                            className={'h-5 w-5 transition-all'}
+                            fill={isLiked ? 'red' : 'white'}
+                        />
+                        <span className={'text-[13px] text-gray-600'}>
+                            {simplifyNumber(likesCount)}
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div className="text-gray-600 hover:cursor-pointer hover:text-gray-800">
-                <div className={'flex items-center gap-1'}>
-                    <MessageCircle className={'h-5 w-5'} />
-                    <span className={'text-[13px]'}>
-                        {simplifyNumber(post.post_comments_count)}
-                    </span>
+
+                {!hideComment && (
+                    <div className="text-gray-600 hover:cursor-pointer hover:text-gray-800">
+                        <Link href={posts.show(post.id)}>
+                            <div className={'flex items-center gap-1'}>
+                                <MessageCircle className={'h-5 w-5'} />
+                                <span className={'text-[13px]'}>
+                                    {simplifyNumber(post.post_comments_count)}
+                                </span>
+                            </div>
+                        </Link>
+                    </div>
+                )}
+
+                <div
+                    className="text-gray-600 hover:cursor-pointer hover:text-gray-800"
+                    onClick={() => handleShare()}
+                >
+                    <Send className={'h-5 w-5'} />
                 </div>
-            </div>
-            <div
-                className="text-gray-600 hover:cursor-pointer hover:text-gray-800"
-                onClick={() => handleShare()}
-            >
-                <Send className={'h-5 w-5'} />
             </div>
         </div>
     );

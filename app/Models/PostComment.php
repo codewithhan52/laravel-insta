@@ -20,4 +20,8 @@ class PostComment extends Model {
 	public function post(): BelongsTo {
 		return $this->belongsTo( Post::class );
 	}
+
+	public function replies() {
+		return $this->hasMany( $this, 'parent_id' );
+	}
 }
