@@ -40,6 +40,23 @@ class PostService {
 			->paginate( $this->perPage );
 	}
 
+	public function create( Request $request ): Post {
+
+		$post = auth()->user()->posts()->create( [
+			'caption' => $request->caption,
+		] );
+
+		if ( ! empty( $request->images ) ) {
+			foreach ( $request->images as $image ) {
+				$post->postImages()->create( [
+					'image_src' => $this->uploadService->uploadImage( $image, $post ),
+				] );
+			}
+		}
+
+		return $post;
+	}
+
 	public function setRandom( bool $random ): void {
 		$this->random = $random;
 	}

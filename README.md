@@ -15,6 +15,6 @@ Demo Link: [Youtube Link](https://youtube.com)
 ### Features
 
 - [x] User Authentication (register, login, logout)
-- [ ] Post Creation (Text and image)
-- [ ] Like and Comment Functionality
+- [x] Post Creation (Text and image)
+- [ ] Like and comment Functionality
 - [ ] Authorization Management
