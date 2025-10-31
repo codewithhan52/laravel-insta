@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type ReactNode } from 'react';
 
@@ -6,5 +7,8 @@ interface AppLayoutProps {
 }
 
 export default ({ children, ...props }: AppLayoutProps) => (
-    <AppLayoutTemplate {...props}>{children}</AppLayoutTemplate>
+    <AppLayoutTemplate {...props}>
+        {children}
+        <Toaster />
+    </AppLayoutTemplate>
 );
