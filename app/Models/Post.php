@@ -19,7 +19,7 @@ class Post extends Model {
 	}
 
 	public function comments(): HasMany {
-		return $this->hasMany( Comment::class );
+		return $this->hasMany( PostComment::class );
 	}
 
 	public function postImages(): HasMany {

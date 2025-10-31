@@ -9,7 +9,7 @@ return new class extends Migration {
 	 * Run the migrations.
 	 */
 	public function up(): void {
-		Schema::create( 'comments', function ( Blueprint $table ) {
+		Schema::create( 'post_comments', function ( Blueprint $table ) {
 			$table->id();
 			$table->text( 'message' );
 			$table->unsignedBigInteger( 'parent_id' )->nullable();
@@ -24,6 +24,6 @@ return new class extends Migration {
 	 * Reverse the migrations.
 	 */
 	public function down(): void {
-		Schema::dropIfExists( 'comments' );
+		Schema::dropIfExists( 'post_comments' );
 	}
 };
