@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class UploadService {
 
@@ -22,6 +23,6 @@ class UploadService {
 			$folder = strtolower( class_basename( $object ) ) . 's';
 		}
 
-		return $file->store( $folder, 'public' );
+		return config( 'app.url' ) . Storage::url( $file->store( $folder, 'public' ) );
 	}
 }
