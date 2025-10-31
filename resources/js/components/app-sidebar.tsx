@@ -43,7 +43,7 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent>
+            <SidebarContent className={'mt-4'}>
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 

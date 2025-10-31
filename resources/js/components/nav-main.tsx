@@ -14,10 +14,11 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
     return (
         <SidebarGroup className="px-2 py-0">
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
-            <SidebarMenu>
+            <SidebarMenu className={'mt-1'}>
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
+                            className="py-5"
                             asChild
                             isActive={page.url.startsWith(
                                 resolveUrl(item.href),

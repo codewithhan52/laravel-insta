@@ -41,3 +41,31 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface PostImage {
+    id: number;
+    image_src: string;
+    post_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Post {
+    id: number;
+    title: string;
+    caption?: string;
+    post_likes_count: number;
+    post_comments_count: number;
+    is_liked: number;
+    user: User;
+    post_images: PostImage[];
+    created_at: string;
+    updated_at: string;
+}
+
+export interface PostPagination {
+    current_page: number;
+    data: Post[];
+    first_page_url: string;
+    from: number;
+}
