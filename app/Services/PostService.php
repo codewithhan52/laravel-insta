@@ -23,8 +23,7 @@ class PostService {
 		$posts = Post::query();
 
 		if ( $this->random ) {
-			$seed  = time();
-			$posts = $posts->inRandomOrder( $seed );
+			$posts = $posts->inRandomOrder( '1' );
 		} else {
 			$posts = $posts->orderBy( 'created_at', 'desc' );
 		}
