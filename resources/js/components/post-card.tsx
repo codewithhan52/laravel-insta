@@ -1,7 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import { simplifyNumber } from '@/lib/utils';
+import posts from '@/routes/posts';
 import { Post } from '@/types';
+import { router } from '@inertiajs/react';
 import {
     ChevronLeft,
     ChevronRight,
@@ -9,6 +11,7 @@ import {
     MessageCircle,
     Send,
 } from 'lucide-react';
+import { useState } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 
@@ -106,6 +109,39 @@ const PostCarousel = ({ images }: PostCarouselProps) => {
 };
 
 const PostAction = ({ post }: PostCardProps) => {
+    const [isLiked, setIsLiked] = useState(post.is_liked > 0);
+    const [likesCount, setLikesCount] = useState(post.post_likes_count);
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const handleLikeToggle = () => {
+        if (isProcessing) return;
+
+        const newLikedState = !isLiked;
+        const countChange = newLikedState ? 1 : -1;
+        const endpoint = newLikedState
+            ? posts.like(post.id)
+            : posts.unlike(post.id);
+
+        setIsProcessing(true);
+        setIsLiked(newLikedState);
+        setLikesCount((prev) => prev + countChange);
+
+        router.post(
+            endpoint,
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+                only: [],
+                onError: () => {
+                    setIsLiked(!newLikedState);
+                    setLikesCount((prev) => prev - countChange);
+                },
+                onFinish: () => setIsProcessing(false),
+            },
+        );
+    };
+
     const handleShare = () => {
         if (navigator.share) {
             navigator
@@ -128,15 +164,20 @@ const PostAction = ({ post }: PostCardProps) => {
     return (
         <div className="flex items-center gap-4">
             <div
-                className={`hover:cursor-pointer ${post.is_liked > 0 ? 'text-red-600' : 'text-gray-600 hover:text-gray-800'}`}
+                className={`transition-colors hover:cursor-pointer ${
+                    isLiked
+                        ? 'text-red-600'
+                        : 'text-gray-600 hover:text-gray-800'
+                } ${isProcessing ? 'pointer-events-none opacity-50' : ''}`}
+                onClick={handleLikeToggle}
             >
                 <div className={'flex items-center gap-1'}>
                     <Heart
-                        className={'h-5 w-5'}
-                        fill={post.is_liked > 0 ? 'red' : 'white'}
+                        className={'h-5 w-5 transition-all'}
+                        fill={isLiked ? 'red' : 'white'}
                     />
                     <span className={'text-[13px] text-gray-600'}>
-                        {simplifyNumber(post.post_likes_count)}
+                        {simplifyNumber(likesCount)}
                     </span>
                 </div>
             </div>
