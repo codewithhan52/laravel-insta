@@ -10,7 +10,7 @@ export default function SinglePost({ post }: { post: Post }) {
             <Head title={post.caption?.substring(0, 15)} />
 
             <div className="mt-6 flex h-full flex-1 flex-col items-center overflow-x-auto px-3">
-                <div className="max-w-xl">
+                <div className="max-w-xl md:min-w-xl">
                     <div className="mb-4">
                         <Link
                             href={dashboard()}
@@ -20,7 +20,7 @@ export default function SinglePost({ post }: { post: Post }) {
                         </Link>
                     </div>
 
-                    <PostCard post={post} displayComment={true}/>
+                    <PostCard post={post} displayComment={true} />
                 </div>
             </div>
         </AppLayout>

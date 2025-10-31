@@ -10,7 +10,7 @@ export default function Timeline({ posts }: { posts: PostPagination }) {
             <Head title="Timeline" />
 
             <div className="mt-6 flex h-full flex-1 flex-col items-center overflow-x-auto px-3">
-                <div className="max-w-xl">
+                <div className="max-w-xl md:min-w-xl">
                     <PostSubmission />
 
                     <InfiniteScroll
