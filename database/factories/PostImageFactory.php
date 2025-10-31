@@ -16,7 +16,7 @@ class PostImageFactory extends Factory {
 	 */
 	public function definition(): array {
 		return [
-			'image_src' => "https://placehold.co/600x400/" . str_replace( '#', '', $this->faker->hexColor() ) . "/FFF?text=" . $this->faker->unique()->words( 1, true ),
+			'image_src' => "https://picsum.photos/id/" . $this->faker->numberBetween( 1, 200 ) . "/600/400?grayscale",
 			'post_id'   => Post::factory(),
 		];
 	}
